@@ -14,8 +14,8 @@ I'm using the hardware SPI, but it can be moved to any other pin using the softw
 
 # Example of use:
 
-  from machine import Pin, SPI
-  import max7219
+  	from machine import Pin, SPI
+  	import max7219
 	
 	hspi = SPI(1, baudrate=10000000, polarity=0, phase=0)
 	d = max7219.MAX7219(hspi, Pin(15))
