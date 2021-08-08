@@ -2,6 +2,13 @@
 
 Micropython driver for a 8 digits 7-segment display module based on the MAX7219 
 
+## Tested on ESP8266 (Nodemcu)
+
+|				|				|
+|-------------------------------|-------------------------------|
+| ![Alt Text](/media/01.gif)	| ![Alt Text](/media/02.gif)	|
+| ![Alt Text](/media/03.gif)	| ![Alt Text](/media/04.gif)	|
+
 ## Wiring:
 
 | ESP8266        | MAX7219 |
