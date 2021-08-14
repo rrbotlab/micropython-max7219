@@ -124,7 +124,7 @@ class MAX7219:
         """
         write int or float
         """
-        self.clear(1)  # clear in DECODEMODE 0xFF
+        self.register(DECODEMODE, 0xFF)
 
         if value < 0:
             str_value = str(abs(value))
@@ -137,7 +137,8 @@ class MAX7219:
         if dp > 0:
             str_value = str_value.replace('.','')
             if not str_value.isdigit():
-                self.register(DIGIT0, 0x0B)  # ERROR
+                self.clear(1)
+                self.register(DIGIT0, 0x0B)  # ERROR signal
                 return -1
             value = int(str_value)
             if isneg:
@@ -150,15 +151,22 @@ class MAX7219:
                 value = -value
             for i in range(8):
                 if i == dp:
-                    self.register(DIGIT0 + i, (value % 10) | 128)
+                    self.register(DIGIT0 + i, (value % 10) | 128)  # set decimal point
                 else:
                     self.register(DIGIT0 + i, value % 10)
+
                 value = value // 10
                 if (value == 0 and i >= dp) or (value == 0 and dp == -1):
                     if isneg:
-                        self.register(DIGIT0 + i + 1, 0x0A)  # MINUS
+                        self.register(DIGIT0 + i + 1, 0x0A)  # MINUS signal
+                        i += 1
+
+                    for z in range(i+1, 8):
+                        self.register(DIGIT0 + z, 0x0F)  # blank leading zero
+
                     break
         else:
+            self.clear(1)
             self.register(DIGIT0, 0x0B)  # ERROR
             return -1
 
