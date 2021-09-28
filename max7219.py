@@ -158,8 +158,8 @@ class MAX7219:
                 value = value // 10
                 if (value == 0 and i >= dp) or (value == 0 and dp == -1):
                     if isneg:
-                        self.register(DIGIT0 + i + 1, 0x0A)  # MINUS signal
                         i += 1
+                        self.register(DIGIT0 + i, 0x0A)  # MINUS signal
 
                     for z in range(i+1, 8):
                         self.register(DIGIT0 + z, 0x0F)  # blank leading zero
