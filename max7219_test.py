@@ -1,18 +1,13 @@
-from machine import Pin, SPI, I2C
+from machine import Pin, SPI
 from utime import sleep_ms, localtime, time
-import lib.max7219 as max7219
-import i2c_lcd
+import max7219
 import ntptime
 
 hspi = SPI(1, baudrate=10000000, polarity=0, phase=0)
 d = max7219.MAX7219(hspi, Pin(15))
 
-i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
-lcd = i2c_lcd.I2cToLcd(i2c, 39)
-
 p1 = [2, 3, 5, 7, 11, 13, 17]
 p2 = [19, 23, 29, 31, 37, 41, 43]
-
 
 def write_int():
     for i in p1:
@@ -128,7 +123,6 @@ def counter():
     # d.clear(1)
     count = 3600
     while True:
-        lcd.putstr("%08d" % count, lin=0, col=0)
         d.write_num(count)
         sleep_ms(1000)
         count += 1
@@ -147,7 +141,4 @@ print("\n\nRunning MAX7219_V2 Tests")
 print("CTRL+C to stop")
 
 counter()
-
-
-
 
